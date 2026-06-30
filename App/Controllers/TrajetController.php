@@ -16,7 +16,8 @@ class TrajetController{
 
         $nbPlaces = $_POST['nb_places_total'];
 
-        //verifie que l'agence de départ et d'arriver sont différente, puis vérifie que l'heure et date de départ avant l'heure d'arriver. Si tout est correcte, le trajet est enregistrer dans la db
+        //verifie que l'agence de départ et d'arriver sont différente, puis vérifie que l'heure et date de départ avant l'heure d'arriver. 
+        // Si tout est correcte, le trajet est enregistrer dans la db
         if($agenceArr == $agenceDep){
             echo '<script language="javascript">';
             echo 'alert("l\'agence de départ et d\'arrivée doivent etres differente")';
