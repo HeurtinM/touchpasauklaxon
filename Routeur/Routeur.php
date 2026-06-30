@@ -12,6 +12,7 @@ class Routeur {
     //si oui recupere et crée une instance du controlleur associer et appelle sa fonction
     public function dispatch(string $url): void {
 
+        $url = strtok($url, '?'); //separe syntaxiquement ce qu'il y a apres le ? dans l'url
         $httpMethod = $_SERVER['REQUEST_METHOD']; // récupère GET ou POST
         $key = $httpMethod . $url; // construit la clé ex: "GET/login" ou "POST/login"
 

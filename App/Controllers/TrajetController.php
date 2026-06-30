@@ -19,22 +19,16 @@ class TrajetController{
         //verifie que l'agence de départ et d'arriver sont différente, puis vérifie que l'heure et date de départ avant l'heure d'arriver. 
         // Si tout est correcte, le trajet est enregistrer dans la db
         if($agenceArr == $agenceDep){
-            echo '<script language="javascript">';
-            echo 'alert("l\'agence de départ et d\'arrivée doivent etres differente")';
-            echo '</script>';
+            header('Location: /touchepasauklaxon/trajet/create?erreur=agences_identiques');
+        }
+        else if($gdhArr<$gdhDep){
+            header('Location: /touchepasauklaxon/trajet/create?erreur=dates_incoherentes');
         }
         else{
-            if($gdhArr<$gdhDep){
-                echo '<script language="javascript">';
-                echo 'alert("le départ doit etre avant l\'arrivée")';
-                echo '</script>';
-            }
-            else{
-                require_once 'App/Models/TrajetModel.php';
-                $model = new TrajetModel();
-                $model->createTrajet($idUser, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces);
-                header('Location: /touchepasauklaxon/');
-            }
+            require_once 'App/Models/TrajetModel.php';
+            $model = new TrajetModel();
+            $model->createTrajet($idUser, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces);
+            header('Location: /touchepasauklaxon/');
         };
     }
 }

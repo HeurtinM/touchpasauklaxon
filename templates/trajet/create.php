@@ -3,6 +3,17 @@ require 'templates/layout/header.php';
 ?>
 
 <form action="/touchepasauklaxon/trajet/store" method="post">
+    <?php if(isset($_GET['erreur'])): ?>
+    <p style="color:red;">
+        <?php 
+        if($_GET['erreur'] === 'agences_identiques') {
+            echo "L'agence de départ et d'arrivée doivent être différentes.";
+        } elseif($_GET['erreur'] === 'dates_incoherentes') {
+            echo "La date d'arrivée doit être après la date de départ.";
+        }
+        ?>
+    </p>
+    <?php endif; ?>
   <div class="container">
     <!-- infos visible mais non modifiable par l'utilisateur comme demander dans le brief-->
     <input type="text" value="<?php echo $_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']; ?>" readonly>

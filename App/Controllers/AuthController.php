@@ -23,13 +23,7 @@ class AuthController{
             header('Location: /touchepasauklaxon/');
         }
         else{
-            # Source - https://stackoverflow.com/a/13837459
-            # Posted by Yogesh Suthar, modified by community. See post 'Timeline' for change history
-            # Retrieved 2026-06-23, License - CC BY-SA 3.0
-
-            echo '<script language="javascript">';
-            echo 'alert("mot de passe incorrect")';
-            echo '</script>';
+            header('Location: /touchepasauklaxon/login?erreur=identifiants');
         }
     }
 
