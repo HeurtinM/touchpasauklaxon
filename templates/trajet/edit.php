@@ -1,6 +1,8 @@
 <?php
 require 'templates/layout/header.php';
 ?>
+
+<!--formulaire d'edit de trajet, le meme que pour la création juste avec les champs pre-remplis par les valeur du trajet en cours de modifications-->
 <form action="/touchepasauklaxon/trajet/update" method="post">
     <?php if(isset($_GET['erreur'])): ?>
     <p style="color:red;">

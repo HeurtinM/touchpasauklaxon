@@ -31,7 +31,8 @@ class TrajetController{
             header('Location: /touchepasauklaxon/');
         };
     }
-
+    
+    //fonction edit
     public function edit(){
         $id = $_GET['id'];
         require_once 'App/Models/TrajetModel.php';
@@ -66,6 +67,7 @@ class TrajetController{
         }
     }
 
+    //fonction delete
     public function delete(){
         $id = $_GET['id'];
         require_once 'App/Models/TrajetModel.php';

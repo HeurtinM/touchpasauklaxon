@@ -8,6 +8,7 @@
 </head>
 <body>
 <nav>
+    <!--verifi si une session utilisateur est ouverte, puis regarde si l'utilisateur est un admin et affiche les liens nav en fonction-->
     <?php if(isset($_SESSION['user'])): ?>
         <?php if($_SESSION['user']['role'] === 'admin'): ?>
             <a href="/touchepasauklaxon/admin">Touche pas au klaxon</a>

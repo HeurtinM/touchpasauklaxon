@@ -2,6 +2,7 @@
 require 'templates/layout/header.php';
 ?>
 
+<!--formulaire de cr"ation de trajet-->
 <form action="/touchepasauklaxon/trajet/store" method="post">
     <?php if(isset($_GET['erreur'])): ?>
     <p style="color:red;">
@@ -21,7 +22,7 @@ require 'templates/layout/header.php';
     <input type="tel" value="<?php echo $_SESSION['user']['telephone']; ?>" readonly>
 
     
-    <?php 
+    <?php
     require_once 'App/Core/Database.php';
     $db = Database::getInstance()->getConnection();
     $stmt = $db->prepare("SELECT * FROM agence");

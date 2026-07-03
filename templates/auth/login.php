@@ -3,6 +3,7 @@ require 'templates/layout/header.php';
 ?>
 
 <!--repris le form directement de w3school-->
+<!--formulaire de connection-->
 <form action="/touchepasauklaxon/login" method="post">
   <?php if(isset($_GET['erreur']) && $_GET['erreur'] === 'identifiants'): ?>
     <p style="color:red;">Email ou mot de passe incorrect.</p>

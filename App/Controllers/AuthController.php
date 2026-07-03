@@ -6,10 +6,11 @@ class AuthController{
     }
 
     public function login(){
-
+        //recupere l'email et mdp fourni
         $email = $_POST['email'];
         $motDePasse = $_POST['psw']; 
-
+        
+        //intancie la db si ce n'est pas deja fait pour cette execution du script
         require_once 'App/core/Database.php'; //d'apres ce que j'ai trouvé, require once est la meilleur manière d'instancier une classe
 
         //fait principalement en suivant ceci: https://grafikart.fr/tutoriels/pdo-php-1141
@@ -18,6 +19,7 @@ class AuthController{
         $stmt->execute([':email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        //verifie si l'email et mdp son correct et renvoi sur une session connecter si oui, affiche un message d'erreur si non
         if($user && password_verify($motDePasse,$user['mot_de_passe'])){
             $_SESSION['user'] = $user;
             header('Location: /touchepasauklaxon/');
@@ -27,6 +29,7 @@ class AuthController{
         }
     }
 
+    //termine la session
     public function logout(): void {
     session_destroy();
     header('Location: /touchepasauklaxon/');
