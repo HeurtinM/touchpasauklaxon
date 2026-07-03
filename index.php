@@ -16,6 +16,9 @@ $routeur->addRoute('POST', '/login', 'AuthController', 'login');
 $routeur->addRoute('GET', '/logout', 'AuthController', 'logout');
 $routeur->addRoute('GET', '/trajet/create', 'TrajetController', 'create');
 $routeur->addRoute('POST', '/trajet/store', 'TrajetController', 'store');
+$routeur->addRoute('GET', '/trajet/delete', 'TrajetController', 'delete');
+$routeur->addRoute('GET', '/trajet/edit', 'TrajetController', 'edit');
+$routeur->addRoute('POST','/trajet/update','TrajetController','update');
 
 //appelle la methode dispatch de la classe routeur et lui donne en argument l'url recuperer plus tot
 $routeur->dispatch($url); 

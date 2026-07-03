@@ -19,6 +19,7 @@ $stmt = $db->prepare("
 $stmt->execute();
 $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+//boucle pour afficher tt les trajets
  foreach($trajets as $trajet): ?>
     <div>
         <p>Départ : <?php echo $trajet['ville_depart']; ?></p>
@@ -27,8 +28,9 @@ $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <p>Date arrivée : <?php echo $trajet['gdh_arrivee']; ?></p>
         <p>Places disponibles : <?php echo $trajet['nb_places_dispo']; ?></p>
         <?php if(isset($_SESSION['user'])): ?>
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#myModal">Détails</button>
-            <div id="myModal" class="modal fade" role="dialog">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modal-<?php echo $trajet['id_trajet']; ?>">Détails</button>
+            <!--Modal details-->
+            <div id="modal-<?php echo $trajet['id_trajet']; ?>" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -47,6 +49,11 @@ $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </div>
+             <!--si le trajet apartient a l'utilisateur de la session en cour, les options pour le supprimer ou modifier s'affiche-->
+            <?php if($_SESSION['user']['id_user'] == $trajet['id_user']): ?>
+                <a href="/touchepasauklaxon/trajet/edit?id=<?php echo $trajet['id_trajet']; ?>">Modifier</a>
+                <a href="/touchepasauklaxon/trajet/delete?id=<?php echo $trajet['id_trajet']; ?>">Supprimer</a>
+            <?php endif; ?>
         <?php endif ?>
     </div>
 <?php endforeach; ?>
