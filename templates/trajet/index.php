@@ -20,7 +20,7 @@ $stmt->execute();
 $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //boucle pour afficher tt les trajets
- foreach($trajets as $trajet): ?>
+foreach($trajets as $trajet): ?>
     <div>
         <p>Départ : <?php echo $trajet['ville_depart']; ?></p>
         <p>Date départ : <?php echo $trajet['gdh_depart']; ?></p>

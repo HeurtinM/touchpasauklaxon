@@ -3,14 +3,14 @@ class Routeur {
     private array $routes = [];
 
     //tableau associatif des routes
-    public function addRoute(string $httpMethod, string $url, string $controller, string $method): void {
+    public function addRoute(string $httpMethod, string $url, string $controller, string $method){
     $this->routes[$httpMethod . $url] = ['controller' => $controller, 'method' => $method];
     }
 
     //verifi si la route fourni existe
     //si non renvoi 404
     //si oui recupere et crée une instance du controlleur associer et appelle sa fonction
-    public function dispatch(string $url): void {
+    public function dispatch(string $url){
 
         $url = strtok($url, '?'); //separe syntaxiquement ce qu'il y a apres le ? dans l'url
         $httpMethod = $_SERVER['REQUEST_METHOD']; // récupère GET ou POST

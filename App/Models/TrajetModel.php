@@ -24,7 +24,7 @@ class TrajetModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateTrajet($id, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces): void {
+    public function updateTrajet($id, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces){
     require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("UPDATE trajet SET 

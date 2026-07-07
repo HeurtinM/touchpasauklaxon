@@ -30,7 +30,7 @@ class AuthController{
     }
 
     //termine la session
-    public function logout(): void {
+    public function logout(){
     session_destroy();
     header('Location: /touchepasauklaxon/');
     }

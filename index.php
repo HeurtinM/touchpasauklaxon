@@ -19,6 +19,13 @@ $routeur->addRoute('POST', '/trajet/store', 'TrajetController', 'store');
 $routeur->addRoute('GET', '/trajet/delete', 'TrajetController', 'delete');
 $routeur->addRoute('GET', '/trajet/edit', 'TrajetController', 'edit');
 $routeur->addRoute('POST','/trajet/update','TrajetController','update');
+$routeur->addRoute('GET', '/admin/users', 'AdminController', 'users');
+$routeur->addRoute('GET', '/admin/agences', 'AdminController', 'agences');
+$routeur->addRoute('GET', '/admin/agence/create', 'AdminController', 'createAgence');
+$routeur->addRoute('POST', '/admin/agence/store', 'AdminController', 'storeAgence');
+$routeur->addRoute('GET', '/admin/agence/edit', 'AdminController', 'editAgence');
+$routeur->addRoute('POST', '/admin/agence/update', 'AdminController', 'updateAgence');
+$routeur->addRoute('GET', '/admin/agence/delete', 'AdminController', 'deleteAgence');
 
 //appelle la methode dispatch de la classe routeur et lui donne en argument l'url recuperer plus tot
 $routeur->dispatch($url); 
