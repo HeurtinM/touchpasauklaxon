@@ -3,7 +3,7 @@ require 'templates/layout/header.php';
 ?>
 
 <!--formulaire de création d'agence-->
-<form action="/touchepasauklaxon/agence/store" method="post">
+<form action="/touchepasauklaxon/admin/agence/store" method="post">
   <div class="container">
     <?php if(isset($_GET['erreur'])): ?>
     <p style="color:red;">

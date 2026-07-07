@@ -16,6 +16,9 @@ require 'templates/layout/header.php';
     </p>
     <?php endif; ?>
   <div class="container">
+    <!--champ caché pour recuperer l'id pour la function update-->
+    <input type="hidden" name="id_trajet" value="<?php echo $trajet['id_trajet']; ?>">
+    
     <!-- infos visible mais non modifiable par l'utilisateur comme demander dans le brief-->
     <input type="text" value="<?php echo $_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']; ?>" readonly>
     <input type="email" value="<?php echo $_SESSION['user']['email']; ?>" readonly>

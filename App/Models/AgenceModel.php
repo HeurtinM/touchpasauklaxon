@@ -9,6 +9,14 @@ class AgenceModel {
         return $stmt->fetchAll();
     }
 
+    public function getAgenceById($id){
+        require_once 'App/Core/Database.php';
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM agence WHERE id_agence = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function createAgence($agenceName) {
         require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
@@ -44,4 +52,5 @@ class AgenceModel {
         $stmt = $db->prepare("DELETE FROM agence WHERE id_agence = :id");
         $stmt->execute([':id' => $id]);
     }
+    
 }

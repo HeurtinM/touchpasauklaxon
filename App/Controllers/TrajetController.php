@@ -43,6 +43,8 @@ class TrajetController{
 
     public function update(){
         //variable recuperé via le formulaire
+        $id = $_POST['id_trajet'];
+
         $idUser = $_SESSION['user']['id_user'];
 
         $agenceDep = $_POST['id_agence_dep'];

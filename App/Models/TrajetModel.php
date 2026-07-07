@@ -32,7 +32,8 @@ class TrajetModel {
             id_agence_arr = :id_agence_arr,
             gdh_depart = :gdh_depart,
             gdh_arrivee = :gdh_arrivee,
-            nb_places_total = :nb_places_total
+            nb_places_total = :nb_places_total,
+            nb_places_dispo = :nb_places_total
             WHERE id_trajet = :id");
         $stmt->execute([
             ':id_agence_dep' => $agenceDep,
