@@ -1,8 +1,18 @@
 <?php
 class AdminController{
 
+    //fonction privé pour check si la session en cours est bien celle d'un admin
+    //verifi egalement si une session est en cours, pour "good practice"
+    private function checkAdmin(): void {
+        if(!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: /touchepasauklaxon/');
+            return;
+        }
+    }
+
     //recupere la liste des utilisateurs dans la db
     public function users(){
+        $this->checkAdmin();
         require_once 'App/Models/UserModel.php';
         $model = new UserModel();
         $users = $model->listUsers();
@@ -11,6 +21,7 @@ class AdminController{
 
     //recupere la liste des agences dans la db
     public function agences(){
+        $this->checkAdmin();
         require_once 'App/Models/AgenceModel.php';
         $model = new AgenceModel();
         $agences = $model->listAgences();
@@ -18,21 +29,25 @@ class AdminController{
     }
 
     public function createAgence(){
+        $this->checkAdmin();
         require 'templates/admin/createAgences.php';
     }
     
     public function storeAgence(){
-    $agenceName = $_POST['nom_ville'];
-    require_once 'App/Models/AgenceModel.php';
-    $model = new AgenceModel();
-    if($model->agenceExists($agenceName)){
-        header('Location: /touchepasauklaxon/admin/agence/create?erreur=agence_exist');
-    } else {
-        $model->createAgence($agenceName);
-        header('Location: /touchepasauklaxon/admin/agences');
-    }}
+        $this->checkAdmin();
+        $agenceName = $_POST['nom_ville'];
+        require_once 'App/Models/AgenceModel.php';
+        $model = new AgenceModel();
+        if($model->agenceExists($agenceName)){
+            header('Location: /touchepasauklaxon/admin/agence/create?erreur=agence_exist');
+        } else {
+            $model->createAgence($agenceName);
+            header('Location: /touchepasauklaxon/admin/agences');
+        }
+    }
 
     public function editAgence(){
+        $this->checkAdmin();
         $id = $_GET['id'];
         require_once 'App/Models/AgenceModel.php';
         $model = new AgenceModel();
@@ -41,6 +56,7 @@ class AdminController{
     }
 
     public function updateAgence(){
+        $this->checkAdmin();
         $agenceName = $_POST['nom_ville'];
 
         require_once 'App/Models/AgenceModel.php';
@@ -54,8 +70,9 @@ class AdminController{
             header('Location: /touchepasauklaxon/admin/agences');
     }}
 
-        //fonction delete
+    //fonction delete
     public function deleteAgence(){
+        $this->checkAdmin();
         $id = $_GET['id'];
         require_once 'App/Models/AgenceModel.php';
         $model = new AgenceModel();
@@ -64,14 +81,16 @@ class AdminController{
     }
 
     public function trajets(): void {
-    require 'templates/admin/trajets.php';
+        $this->checkAdmin();
+        require 'templates/admin/trajets.php';
     }
 
     public function deleteTrajet(): void {
-    $id = $_GET['id'];
-    require_once 'App/Models/TrajetModel.php';
-    $model = new TrajetModel();
-    $model->deleteTrajet($id);
-    header('Location: /touchepasauklaxon/admin/trajets');
-}
+        $this->checkAdmin();
+        $id = $_GET['id'];
+        require_once 'App/Models/TrajetModel.php';
+        $model = new TrajetModel();
+        $model->deleteTrajet($id);
+        header('Location: /touchepasauklaxon/admin/trajets');
+    }
 }
