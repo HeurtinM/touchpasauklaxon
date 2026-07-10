@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/HeurtinM/touchpasauklaxon#readme",
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "sass": "^1.101.0"
   }
 }
