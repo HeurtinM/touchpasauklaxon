@@ -1,11 +1,12 @@
-<?php
-require 'templates/layout/header.php';
-?>
+<?php require 'templates/layout/header.php'; ?>
 
-<!--formulaire de cr"ation de trajet-->
-<form action="/touchepasauklaxon/trajet/store" method="post">
+<!--formulaire de création de trajet-->
+<!--les visuels donné ne comprenait pas les formulaire, j'ai donc fait quelque chose de très simple-->
+<div class="container mt-4">
+    <h2 class="mb-4">Créer un trajet</h2>
+
     <?php if(isset($_GET['erreur'])): ?>
-    <p style="color:red;">
+    <div class="alert alert-danger">
         <?php 
         if($_GET['erreur'] === 'agences_identiques') {
             echo "L'agence de départ et d'arrivée doivent être différentes.";
@@ -13,48 +14,73 @@ require 'templates/layout/header.php';
             echo "La date d'arrivée doit être après la date de départ.";
         }
         ?>
-    </p>
+    </div>
     <?php endif; ?>
-  <div class="container">
-    <!-- infos visible mais non modifiable par l'utilisateur comme demander dans le brief-->
-    <input type="text" value="<?php echo $_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']; ?>" readonly>
-    <input type="email" value="<?php echo $_SESSION['user']['email']; ?>" readonly>
-    <input type="tel" value="<?php echo $_SESSION['user']['telephone']; ?>" readonly>
 
-    
-    <?php
-    require_once 'App/Core/Database.php';
-    $db = Database::getInstance()->getConnection();
-    $stmt = $db->prepare("SELECT * FROM agence");
-    $stmt->execute();
-    $agences = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    ?>
+    <form action="/touchepasauklaxon/trajet/store" method="post">
+        <!-- infos visible mais non modifiable par l'utilisateur comme demander dans le brief-->
+        <div class="mb-3">
+            <label class="form-label">Nom</label>
+            <input type="text" class="form-control" value="<?php echo $_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']; ?>" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" value="<?php echo $_SESSION['user']['email']; ?>" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Téléphone</label>
+            <input type="tel" class="form-control" value="<?php echo $_SESSION['user']['telephone']; ?>" readonly>
+        </div>
 
-    <select name="id_agence_dep" id="agenceDepart" required>
-        <?php foreach($agences as $agence): ?>
-            <option value="<?php echo $agence['id_agence']; ?>">
-                <?php echo $agence['nom_ville']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+        <?php
+        require_once 'App/Core/Database.php';
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM agence");
+        $stmt->execute();
+        $agences = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        ?>
 
-    <select name="id_agence_arr" id="agenceArrivee" required>
-        <?php foreach($agences as $agence): ?>
-            <option value="<?php echo $agence['id_agence']; ?>">
-                <?php echo $agence['nom_ville']; ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Agence de départ</label>
+                <select name="id_agence_dep" class="form-select" required>
+                    <?php foreach($agences as $agence): ?>
+                        <option value="<?php echo $agence['id_agence']; ?>">
+                            <?php echo $agence['nom_ville']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="col">
+                <label class="form-label">Agence d'arrivée</label>
+                <select name="id_agence_arr" class="form-select" required>
+                    <?php foreach($agences as $agence): ?>
+                        <option value="<?php echo $agence['id_agence']; ?>">
+                            <?php echo $agence['nom_ville']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
 
-    <input type="datetime-local" name="gdh_depart" required>
-    <input type="datetime-local" name="gdh_arrivee" required>
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Date et heure de départ</label>
+                <input type="datetime-local" name="gdh_depart" class="form-control" required>
+            </div>
+            <div class="col">
+                <label class="form-label">Date et heure d'arrivée</label>
+                <input type="datetime-local" name="gdh_arrivee" class="form-control" required>
+            </div>
+        </div>
 
-    <input type="number" name="nb_places_total" min="1" required>
+        <div class="mb-3">
+            <label class="form-label">Nombre de places</label>
+            <input type="number" name="nb_places_total" class="form-control" min="1" required>
+        </div>
 
-    <button type="submit">Proposer le trajet</button>
-  </div>
-</form>
+        <button type="submit" class="btn btn-primary">Proposer le trajet</button>
+    </form>
+</div>
 
-<?php
-require 'templates/layout/footer.php';
-?>
+<?php require 'templates/layout/footer.php'; ?>

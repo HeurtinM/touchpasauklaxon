@@ -65,7 +65,7 @@ class TrajetController{
             require_once 'App/Models/TrajetModel.php';
             $model = new TrajetModel();
             $model->updateTrajet($id, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces);
-            header('Location: /touchepasauklaxon/');
+            header('Location: /touchepasauklaxon/?succes=trajet_modifie');
         }
     }
 

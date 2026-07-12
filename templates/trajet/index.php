@@ -20,7 +20,11 @@ $stmt->execute();
 $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC); ?>
 
 <div class="mx-5">
-    <h2 class="my-3">Trajets proposés</h2>
+    <?php if(isset($_SESSION['user'])): ?>
+        <h2 class="my-3">Trajets proposés</h2>
+    <?php else: ?>
+        <h2 class="my-3">Pour obtenir plus d'informations sur un trajet, veuillez vous connecter</h5>
+    <?php endif; ?>
     <div class="rounded overflow-hidden"> <!--div pour appliquer les coins arrondi-->
         <table class="table table-striped table-bordered text-center mb-0">
             <thead class="table-dark">
@@ -62,6 +66,26 @@ $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC); ?>
                         <?php endif; ?>
                     </td>
                 </tr>
+                <?php if(isset($_SESSION['user'])): ?>
+                <div id="modal-<?php echo $trajet['id_trajet']; ?>" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Auteur : <?php echo $trajet['user_nom']; ?> <?php echo $trajet['user_prenom']; ?></p>
+                                <p>Téléphone : <?php echo chunk_split($trajet['user_telephone'],2,' ') ?></p>
+                                <p>Email : <?php echo $trajet['user_email']; ?></p>
+                                <p>Nombre de places : <?php echo $trajet['nb_places_total']; ?></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>

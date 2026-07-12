@@ -14,23 +14,51 @@ $stmt = $db->prepare("
     FROM trajet
     JOIN agence ad ON trajet.id_agence_dep = ad.id_agence
     JOIN agence aa ON trajet.id_agence_arr = aa.id_agence
-    JOIN user ON trajet.id_user = user.id_user
+    JOIN `user` ON trajet.id_user = `user`.id_user
     ORDER BY gdh_depart ASC
 ");
 $stmt->execute();
 $trajets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
-//boucle pour afficher tt les trajets
-foreach($trajets as $trajet): ?>
-    <div>
-        <p>Départ : <?php echo $trajet['ville_depart']; ?></p>
-        <p>Date départ : <?php echo $trajet['gdh_depart']; ?></p>
-        <p>Arrivée : <?php echo $trajet['ville_arrivee']; ?></p>
-        <p>Date arrivée : <?php echo $trajet['gdh_arrivee']; ?></p>
-        <p>Places disponibles : <?php echo $trajet['nb_places_dispo']; ?></p>
-        <a href="/touchepasauklaxon/admin/trajet/delete?id=<?php echo $trajet['id_trajet']; ?>">Supprimer</a>
+<div class="mx-5 mt-4 mb-5">
+    <h2 class="mb-3">Trajets</h2>
+    <div class="rounded overflow-hidden">
+        <table class="table table-striped table-bordered text-center mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Départ</th>
+                    <th>Date départ</th>
+                    <th>Heure départ</th>
+                    <th>Arrivée</th>
+                    <th>Date arrivée</th>
+                    <th>Heure arrivée</th>
+                    <th>Places dispo</th>
+                    <th>Proposé par</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($trajets as $trajet): ?>
+                <tr>
+                    <td><?php echo $trajet['ville_depart']; ?></td>
+                    <td><?php echo date('d/m/Y', strtotime($trajet['gdh_depart'])); ?></td>
+                    <td><?php echo date('H:i', strtotime($trajet['gdh_depart'])); ?></td>
+                    <td><?php echo $trajet['ville_arrivee']; ?></td>
+                    <td><?php echo date('d/m/Y', strtotime($trajet['gdh_arrivee'])); ?></td>
+                    <td><?php echo date('H:i', strtotime($trajet['gdh_arrivee'])); ?></td>
+                    <td><?php echo $trajet['nb_places_dispo']; ?></td>
+                    <td><?php echo $trajet['user_prenom'] . ' ' . $trajet['user_nom']; ?></td>
+                    <td>
+                        <a href="/touchepasauklaxon/admin/trajet/delete?id=<?php echo $trajet['id_trajet']; ?>" class="btn btn-sm text-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
-<?php endforeach; ?>
-
+</div>
 
 <?php require 'templates/layout/footer.php'; ?>

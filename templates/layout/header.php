@@ -17,7 +17,7 @@
                 <?php if($_SESSION['user']['role'] === 'admin'): ?>
                     <a href="/touchepasauklaxon/admin/users" class="btn btn-secondary">Utilisateurs</a>
                     <a href="/touchepasauklaxon/admin/agences" class="btn btn-secondary">Agences</a>
-                    <a href="/touchepasauklaxon/admin/trajets">Trajets</a>
+                    <a href="/touchepasauklaxon/admin/trajets" class="btn btn-secondary">Trajets</a>
                     <span class="mx-2">Bonjour <?php echo $_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']; ?></span>
                     <a href="/touchepasauklaxon/logout" class="btn btn-primary">Déconnexion</a>
                 <?php else: ?>
