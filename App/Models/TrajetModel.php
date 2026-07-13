@@ -1,6 +1,22 @@
 <?php
+
+/**
+ * Modèle gérant les opérations en base de données pour les trajets
+ */
 class TrajetModel {
-    public function createTrajet($idUser, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces) {
+
+    /**
+     * Crée un nouveau trajet en base de données
+     * 
+     * @param int $idUser Identifiant de l'utilisateur proposant le trajet
+     * @param int $agenceDep Identifiant de l'agence de départ
+     * @param int $agenceArr Identifiant de l'agence d'arrivée
+     * @param string $gdhDep Date et heure de départ
+     * @param string $gdhArr Date et heure d'arrivée
+     * @param int $nbPlaces Nombre total de places
+     * @return void
+     */
+    public function createTrajet($idUser, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces): void {
         require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("INSERT INTO trajet (gdh_depart, gdh_arrivee, nb_places_total, nb_places_dispo, id_user, id_agence_dep, id_agence_arr) 
@@ -16,7 +32,13 @@ class TrajetModel {
         ]);
     }
 
-    public function getTrajetById($id){
+    /**
+     * Récupère un trajet par son identifiant
+     * 
+     * @param int $id Identifiant du trajet
+     * @return array Données du trajet
+     */
+    public function getTrajetById($id): array {
         require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM trajet WHERE id_trajet = :id");
@@ -24,8 +46,19 @@ class TrajetModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateTrajet($id, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces){
-    require_once 'App/Core/Database.php';
+    /**
+     * Met à jour un trajet existant dans la base de données
+     * 
+     * @param int $id Identifiant du trajet à modifier
+     * @param int $agenceDep Identifiant de la nouvelle agence de départ
+     * @param int $agenceArr Identifiant de la nouvelle agence d'arrivée
+     * @param string $gdhDep Nouvelle date et heure de départ
+     * @param string $gdhArr Nouvelle date et heure d'arrivée
+     * @param int $nbPlaces Nouveau nombre total de places
+     * @return void
+     */
+    public function updateTrajet($id, $agenceDep, $agenceArr, $gdhDep, $gdhArr, $nbPlaces): void {
+        require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("UPDATE trajet SET 
             id_agence_dep = :id_agence_dep,
@@ -45,7 +78,13 @@ class TrajetModel {
         ]);
     }
 
-    public function deleteTrajet($id){
+    /**
+     * Supprime un trajet de la base de données
+     * 
+     * @param int $id Identifiant du trajet à supprimer
+     * @return void
+     */
+    public function deleteTrajet($id): void {
         require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("DELETE FROM trajet WHERE id_trajet = :id");

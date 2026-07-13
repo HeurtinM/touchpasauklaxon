@@ -1,33 +1,48 @@
 <?php
-session_start(); //info sur les session retrouvé sur plusieurs ressources, notamment: https://www.w3schools.com/php/php_sessions.asp
 
-require 'App/Core/Database.php';
-require 'Routeur/Routeur.php';
+/**
+ * Classe gérant le routage des requêtes HTTP vers les contrôleurs appropriés
+ */
+class Routeur {
 
-//recupere l'url de la page actuel en omettant le nom du projet
-$url = str_replace('/touchepasauklaxon', '', $_SERVER['REQUEST_URI']);
-//instancie un nouveau routeur
-$routeur = new Routeur();
+    /** @var array Tableau associatif des routes enregistrées */
+    private array $routes = [];
 
-//ajout des routes
-$routeur->addRoute('GET', '/', 'HomeController', 'index');
-$routeur->addRoute('GET', '/login', 'AuthController', 'showLogin');
-$routeur->addRoute('POST', '/login', 'AuthController', 'login');
-$routeur->addRoute('GET', '/logout', 'AuthController', 'logout');
-$routeur->addRoute('GET', '/trajet/create', 'TrajetController', 'create');
-$routeur->addRoute('POST', '/trajet/store', 'TrajetController', 'store');
-$routeur->addRoute('GET', '/trajet/delete', 'TrajetController', 'delete');
-$routeur->addRoute('GET', '/trajet/edit', 'TrajetController', 'edit');
-$routeur->addRoute('POST','/trajet/update','TrajetController','update');
-$routeur->addRoute('GET', '/admin/users', 'AdminController', 'users');
-$routeur->addRoute('GET', '/admin/agences', 'AdminController', 'agences');
-$routeur->addRoute('GET', '/admin/agence/create', 'AdminController', 'createAgence');
-$routeur->addRoute('POST', '/admin/agence/store', 'AdminController', 'storeAgence');
-$routeur->addRoute('GET', '/admin/agence/edit', 'AdminController', 'editAgence');
-$routeur->addRoute('POST', '/admin/agence/update', 'AdminController', 'updateAgence');
-$routeur->addRoute('GET', '/admin/agence/delete', 'AdminController', 'deleteAgence');
-$routeur->addRoute('GET', '/admin/trajets', 'AdminController', 'trajets');
-$routeur->addRoute('GET', '/admin/trajet/delete', 'AdminController', 'deleteTrajet');
+    /**
+     * Enregistre une nouvelle route dans le tableau des routes
+     * La clé est construite en combinant la méthode HTTP et l'URL
+     * 
+     * @param string $httpMethod Méthode HTTP (GET ou POST)
+     * @param string $url URL de la route
+     * @param string $controller Nom du contrôleur associé
+     * @param string $method Nom de la méthode à appeler
+     * @return void
+     */
+    public function addRoute(string $httpMethod, string $url, string $controller, string $method): void {
+        $this->routes[$httpMethod . $url] = ['controller' => $controller, 'method' => $method];
+    }
 
-//appelle la methode dispatch de la classe routeur et lui donne en argument l'url recuperer plus tot
-$routeur->dispatch($url); 
+    /**
+     * Vérifie si la route fournie existe et appelle le contrôleur associé
+     * Sépare l'URL des paramètres GET avant de chercher la route
+     * Renvoie une erreur 404 si la route n'existe pas
+     * 
+     * @param string $url URL de la requête courante
+     * @return void
+     */
+    public function dispatch(string $url): void {
+        $url = strtok($url, '?'); 
+        $httpMethod = $_SERVER['REQUEST_METHOD']; 
+        $key = $httpMethod . $url;
+
+        if (array_key_exists($key, $this->routes)) {
+            $controller = $this->routes[$key]['controller'];
+            $method = $this->routes[$key]['method'];
+            require 'App/Controllers/' . $controller . '.php';
+            $c = new $controller();
+            $c->$method();
+        } else {
+            echo "404";
+        }
+    }
+}
