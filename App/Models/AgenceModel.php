@@ -24,7 +24,7 @@ class AgenceModel {
      * @param int $id Identifiant de l'agence
      * @return array Données de l'agence
      */
-    public function getAgenceById($id): array {
+    public function getAgenceById($id): array|false {
         require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM agence WHERE id_agence = :id");

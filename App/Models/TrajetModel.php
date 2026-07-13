@@ -38,7 +38,7 @@ class TrajetModel {
      * @param int $id Identifiant du trajet
      * @return array Données du trajet
      */
-    public function getTrajetById($id): array {
+    public function getTrajetById($id): array|false {
         require_once 'App/Core/Database.php';
         $db = Database::getInstance()->getConnection();
         $stmt = $db->prepare("SELECT * FROM trajet WHERE id_trajet = :id");

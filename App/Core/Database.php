@@ -54,4 +54,11 @@ class Database {
     public function getConnection(): PDO {
         return $this->connection;
     }
+
+    /**
+     * Retourne l'id de la derniere insertion dans la base de données
+     */
+    public function getLastInsertId(): string {
+        return $this->connection->lastInsertId();
+    }
 }
